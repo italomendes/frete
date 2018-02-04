@@ -1,0 +1,84 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Frete</span>
+
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-card>
+  
+
+    <h1>Cadastrar Frete</h1>
+    <form #form="ngForm">
+        <mat-form-field class="example-full-width">
+            <mat-select placeholder="UF" [(ngModel)]="UF" name="uf" #uf="ngModel" (change)="cidadesCadastro(UF)" [(value)]="UF" required>
+              <mat-option  value="GO">GO</mat-option>
+              <mat-option  value="MG">MG</mat-option>
+              <mat-option  value="SP">SP</mat-option>
+            </mat-select>   
+            <mat-error *ngIf="cidade.hasError('required')">Escolha uma cidade</mat-error>
+          </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-select placeholder="Cidade Filial" [(ngModel)]="cidadeSelecionada" name="cidade" #cidade="ngModel" required>
+          <mat-option *ngFor="let cidadeCad of cidadesCad | async"  [value]="cidadeCad.ref">
+            {{ cidadeCad.nome }}
+          </mat-option>
+        </mat-select>   
+        <mat-error *ngIf="cidade.hasError('required')">Escolha uma cidade</mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput [(ngModel)]="bairro.nome" placeholder="Bairro" name="bairro" #bairro="ngModel" required>
+        <mat-error *ngIf="bairro.hasError('required')">Bairro é obrigatório</mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input type="number" matInput [(ngModel)]="bairro.valorFrete" placeholder="Valor Frete" name="valorFrete" #valorFrete="ngModel" required>
+        <mat-error *ngIf="valorFrete.hasError('required')">Valor do frete é obrigatório</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="save(bairro,cidadeSelecionada)">Cadastrar</button>
+    </form>
+
+
+
+
+    <h1>Consultar Fretes</h1>
+    <form #consultaEndForm="ngForm">
+        <h6>Por Bairro</h6>
+        <mat-form-field class="example-full-width">
+            <mat-select placeholder="UF" [(ngModel)]="UF1" name="uf" #uf="ngModel" (change)="cidadesConsulta(UF1)" [(value)]="UF1" required>
+              <mat-option  value="GO">GO</mat-option>
+              <mat-option  value="MG">MG</mat-option>
+              <mat-option  value="SP">SP</mat-option>
+            </mat-select>   
+            <mat-error *ngIf="cidade.hasError('required')">Escolha uma cidade</mat-error>
+          </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-select placeholder="Cidade Filial" [(ngModel)]="ref" (change)="consultarBairro(ref)" name="cidade" #cidade="ngModel" required>
+              <mat-option *ngFor="let cidadeCon of cidadesCon | async"  [value]="cidadeCon.ref">
+                {{ cidadeCon.nome }}
+              </mat-option>
+              
+            </mat-select>   
+            <mat-error *ngIf="cidade.hasError('required')">Escolha uma cidade</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width">
+              <mat-select placeholder="Bairro" [(ngModel)]="valbairro" name="bairro" (change)="pg()" #bairro="ngModel" required>
+                <mat-option *ngFor="let bairroc of bairros | async"  [value]="bairroc.valorFrete">
+                  {{ bairroc.nome }}
+                </mat-option>
+                
+              </mat-select>  
+              
+            </mat-form-field>  
+            <h3>{{val}}{{valbairro}}</h3> 
+      </form>
+    <form #consultaCepForm="ngForm">
+      <h6>Por CEP</h6>
+      <mat-form-field class="example-full-width">
+          <input matInput [(ngModel)]="cep" placeholder="CEP" name="cepc" #cepc="ngModel" required>
+          <mat-error *ngIf="cepc.hasError('required')">CEP é obrigatório</mat-error>
+      </mat-form-field>
+      <h3 *ngFor="let bairr of bairrosCep | async">{{val1 +  bairr.nome + val2 + bairr.valorFrete}}</h3>
+      <button mat-raised-button right color="primary" [disabled]="consultaCepForm.invalid" (click)="consultarEndCep(cep)">Consultar</button>
+    </form>
+</mat-card>  
