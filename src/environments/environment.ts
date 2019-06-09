@@ -5,13 +5,4 @@
 
 export const environment = {
   production: false,
-
-  firebaseConfig: {
-    apiKey: "AIzaSyDgRlgPJqtcob-GM7QqrCSsHSVkQ-S-ZU8",
-    authDomain: "frete-f09ad.firebaseapp.com",
-    databaseURL: "https://frete-f09ad.firebaseio.com",
-    projectId: "frete-f09ad",
-    storageBucket: "frete-f09ad.appspot.com",
-    messagingSenderId: "728925021222",
-  }
 };
